@@ -44,8 +44,8 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
 
 public class EducationDbContext : DbContext
 {
-    public DbSet<Student> students { get; set; }
-    public DbSet<Certificate> certificates { get; set; }
+    public DbSet<Student> Students { get; set; }
+    public DbSet<Certificate> Certificates { get; set; }
    
     
 
