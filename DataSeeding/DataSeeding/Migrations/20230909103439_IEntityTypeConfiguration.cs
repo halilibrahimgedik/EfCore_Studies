@@ -4,7 +4,7 @@
 
 namespace DataSeeding.Migrations
 {
-    public partial class mig1 : Migration
+    public partial class IEntityTypeConfiguration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -56,17 +56,14 @@ namespace DataSeeding.Migrations
             migrationBuilder.InsertData(
                 table: "certificates",
                 columns: new[] { "Id", "Institution", "Name", "StudentId" },
-                values: new object[] { 1, "Udemy", ".Net Core", 1 });
-
-            migrationBuilder.InsertData(
-                table: "certificates",
-                columns: new[] { "Id", "Institution", "Name", "StudentId" },
-                values: new object[] { 2, "Udemy", "Docker", 1 });
-
-            migrationBuilder.InsertData(
-                table: "certificates",
-                columns: new[] { "Id", "Institution", "Name", "StudentId" },
-                values: new object[] { 3, "Turkcell", "Angular", 2 });
+                values: new object[,]
+                {
+                    { 1, "Udemy", ".Net Core", 1 },
+                    { 2, "Udemy", "Docker", 1 },
+                    { 3, "Turkcell", "Angular", 2 },
+                    { 4, "Turkcell", "Linux", 2 },
+                    { 5, "Turkcell", "Web Api", 2 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_certificates_StudentId",

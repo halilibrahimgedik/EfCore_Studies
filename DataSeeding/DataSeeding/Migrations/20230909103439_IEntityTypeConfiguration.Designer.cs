@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataSeeding.Migrations
 {
     [DbContext(typeof(EducationDbContext))]
-    [Migration("20230909102336_mig 3")]
-    partial class mig3
+    [Migration("20230909103439_IEntityTypeConfiguration")]
+    partial class IEntityTypeConfiguration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

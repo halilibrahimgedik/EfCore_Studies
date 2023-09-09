@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 Console.WriteLine("Hello, World!");
 
@@ -29,6 +31,17 @@ public class Certificate
     public Student Student { get; set; }
 }
 
+public class StudentConfiguration : IEntityTypeConfiguration<Student>
+{
+    public void Configure(EntityTypeBuilder<Student> builder)
+    {
+        builder.HasMany(s => s.Certificates)
+               .WithOne(c => c.Student)
+               .HasForeignKey(c => c.StudentId);
+    }
+}
+
+
 public class EducationDbContext : DbContext
 {
     public DbSet<Student> students { get; set; }
@@ -43,15 +56,6 @@ public class EducationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Certificate>()
-                    .HasKey(x => x.Id);
-        modelBuilder.Entity<Student>()
-                    .HasKey(x => x.Id);
-
-        modelBuilder.Entity<Student>()
-                    .HasMany(s => s.Certificates)
-                    .WithOne(c => c.Student)
-                    .HasForeignKey(c => c.StudentId);
 
         // Data Seeding
         // data seeding'de Id leri yazmak zorundayız.
