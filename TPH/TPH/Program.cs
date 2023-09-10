@@ -30,6 +30,10 @@ ApplicationDbContext db = new();
 //Discriminator kolonunu komple özelleştirebiliriz.
 #endregion
 
+#region Discriminator Değerleri Nasıl Değiştirilir ?
+//Hiyerarşinin başındaki Entity konfigrasyonuna gelip, HasDiscriminator() fonksiyonu ile özelleştirmede bulunarak ardından HasValue() fonksiyonu ile hangi entitye karşılık hangi değerin girileceğini belirten türde ifade edebilirsiniz.
+#endregion
+
 #region TPH'da Veri Ekleme
 //var employee1 = new Employee() {Name = "Halil", Surname = "Gedik",Department = "Yazılım"};
 
@@ -107,8 +111,16 @@ class ApplicationDbContext : DbContext
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Technician> Technicians { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Person>()
+                    .HasDiscriminator<int>("EntityTürü")
+                    .HasValue<Person>(1)
+                    .HasValue<Employee>(2)
+                    .HasValue<Customer>(3)
+                    .HasValue<Technician>(4);
+
         //modelBuilder.Entity<Person>()
         //    .HasDiscriminator<string>("ayirici")
         //    .HasValue<Person>("A")
@@ -118,8 +130,6 @@ class ApplicationDbContext : DbContext
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-
-        
         optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=ApplicationDB;Integrated Security=True");
     }
 }
