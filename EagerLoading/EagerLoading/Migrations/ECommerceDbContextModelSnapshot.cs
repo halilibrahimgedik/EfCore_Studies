@@ -37,6 +37,21 @@ namespace EagerLoading.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("CategoryProduct", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoriesId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("CategoryProduct");
+                });
+
             modelBuilder.Entity("Product", b =>
                 {
                     b.Property<int>("Id")
@@ -61,32 +76,17 @@ namespace EagerLoading.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("ProductCategory", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("ProductCategory");
-                });
-
             modelBuilder.Entity("ProductSupplier", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ProductsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SupplierId")
+                    b.Property<int>("SuppliersId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId", "SupplierId");
+                    b.HasKey("ProductsId", "SuppliersId");
 
-                    b.HasIndex("SupplierId");
+                    b.HasIndex("SuppliersId");
 
                     b.ToTable("ProductSupplier");
                 });
@@ -111,97 +111,34 @@ namespace EagerLoading.Migrations
                     b.ToTable("Suppliers");
                 });
 
-            modelBuilder.Entity("SupplierCategory", b =>
+            modelBuilder.Entity("CategoryProduct", b =>
                 {
-                    b.Property<int>("SupplierId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SupplierId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("SupplierCategory");
-                });
-
-            modelBuilder.Entity("ProductCategory", b =>
-                {
-                    b.HasOne("Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Product", "Product")
-                        .WithMany("Categories")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("ProductSupplier", b =>
                 {
-                    b.HasOne("Product", "Product")
-                        .WithMany("Suppliers")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Supplier", "Supplier")
-                        .WithMany("Products")
-                        .HasForeignKey("SupplierId")
+                    b.HasOne("Supplier", null)
+                        .WithMany()
+                        .HasForeignKey("SuppliersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("SupplierCategory", b =>
-                {
-                    b.HasOne("Category", "Category")
-                        .WithMany("Suppliers")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Supplier", "Supplier")
-                        .WithMany("Categories")
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("Category", b =>
-                {
-                    b.Navigation("Products");
-
-                    b.Navigation("Suppliers");
-                });
-
-            modelBuilder.Entity("Product", b =>
-                {
-                    b.Navigation("Categories");
-
-                    b.Navigation("Suppliers");
-                });
-
-            modelBuilder.Entity("Supplier", b =>
-                {
-                    b.Navigation("Categories");
-
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
